@@ -55,4 +55,17 @@ module.exports = (app) => {
       return res.redirect('/')
     });
   });
+
+
+  // HTTP: Get One Pet (Based on Search)
+  app.get('/search', (req, res) => {
+    term = new RegExp(req.query.term, 'i')
+
+    Pet.find({$or:[
+      {'name': term},
+      {'species': term}
+    ]}).exec((err, pets) => {
+      res.render('pets-index', { pets: pets });
+    })
+  });
 }

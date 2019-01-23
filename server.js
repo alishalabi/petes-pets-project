@@ -5,9 +5,14 @@ if (!process.env.PORT) {
 
 const express = require('express');
 // New Middleware: "Path"
+// - Formatting Tool For URL Pathways
 const path = require('path');
 // New Middleware: "Serve-Favicon"
+// - Favicon = shortcut icon.
+// - Module: Helps Servce Favicon
 const favicon = require('serve-favicon');
+// New Middleware: "Morgan"
+// - Morgan: Logger Middleware For Node
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
