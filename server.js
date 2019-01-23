@@ -4,7 +4,9 @@ if (!process.env.PORT) {
 }
 
 const express = require('express');
+// New Middleware: "Path"
 const path = require('path');
+// New Middleware: "Serve-Favicon"
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
