@@ -1,6 +1,33 @@
 // MODELS
 const Pet = require('../models/pet');
 
+// Uploading to AWS S3
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/'});
+const Upload = require('s3-uploader');
+
+const client = new Upload(process.env.S3_BUCKET, {
+  aws: {
+    path: 'pets/avatar',
+    region: process.env.S3_Region,
+    acl: 'public-read',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  },
+  cleanup: {
+    versions: true,
+    original: true
+  },
+  versions: [{
+    maxWidth: 400,
+    aspect: '16:10',
+    suffix: '-standard'
+  },{
+    maxWidth: 300,
+    aspect: '1:1',
+    suffix: '-square'
+  }]
+})
 
 // PET ROUTES
 module.exports = (app) => {
@@ -13,7 +40,8 @@ module.exports = (app) => {
   });
 
   // CREATE PET
-  app.post('/pets', (req, res) => {
+  app.post('/pets', upload.single('avatar'), (req, res, next) => {
+    console.log(req.file)
     const pet = new Pet(req.body);
 
     pet.save()
