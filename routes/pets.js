@@ -112,4 +112,21 @@ module.exports = (app) => {
         res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page, term: req.query.term });
       });
   });
+
+  // HTTP: Load One Pet's Payment Page
+  app.post('/pets/:id/purchase', (req, res) => {
+    console.log(req.body)
+    const strip = require("stripe")(process.env.PRIVATE_STRIPE_API_KEY)
+    const token = req.body.stripeToken
+
+    const charge = stripe.charges.create({
+      amount: 999,
+      currency: 'usd',
+      description: 'Example charge',
+      source: token,
+    }).then(() => {
+      res.redirect(`/pets/${req.params.id}`)
+    })
+  })
+
 }

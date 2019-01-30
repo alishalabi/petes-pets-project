@@ -14,3 +14,12 @@ block content
       p=pet.description
       .text-right
         a(href="/pets/" + pet.id + "/edit").btn-link Edit
+      form(action=`/pets/${pet._id}/purchase`, method='POST')
+        script.stripe-button(src='https://checkout.stripe.com/checkout.js',
+        data-key='pk_test_tAj7Sr4A3Q4CAfysmnr9dbhE',
+        data-amount='999',
+        data-name="Proud Pete's Pet Emporium",
+        data-description='Widget',
+        data-image='https://stripe.com/img/documentation/checkout/marketplace.png',
+        data-locale='auto',
+        data-zip-code='true')
