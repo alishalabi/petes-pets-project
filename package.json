@@ -2,32 +2,33 @@
   "name": "petes-pets",
   "version": "0.0.0",
   "private": true,
+  "main" : "server.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js"
   },
   "dependencies": {
-    "body-parser": "~1.18.2",
+    "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv": "^4.0.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
-    "handlebars": "^4.0.12",
+    "handlebars": "^4.1.0",
     "method-override": "^2.3.10",
-    "mongoose": "^5.1.1",
+    "mongoose": "^5.4.10",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "nodemailer": "^5.1.1",
     "nodemailer-mailgun-transport": "^1.4.0",
-    "pug": "^2.0.0-rc.4",
+    "pug": "^2.0.3",
     "s3-uploader": "^2.0.3",
     "serve-favicon": "~2.4.5",
     "stripe": "^5.10.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
     "mocha": "^5.2.0"
   }
 }
