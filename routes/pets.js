@@ -134,7 +134,7 @@ module.exports = (app) => {
     console.log(req.body);
     // Set your secret key: remember to change this to your live secret key in production
     // See your keys here: https://dashboard.stripe.com/account/apikeys
-    const strip = require("stripe")(process.env.PRIVATE_STRIPE_API_KEY)
+    const stripe = require("stripe")(process.env.PRIVATE_STRIPE_API_KEY)
     // Token is created using Checkout or Elements!
     // Get the payment token ID submitted by the form:
     const token = req.body.stripeToken; // Using Express
@@ -183,5 +183,59 @@ module.exports = (app) => {
       });
     })
   });
+
+
+  // API ROUTES
+  // API: Create One Pet
+  app.post('/api/pets', upload.single('avatar'), (req, res, next) => {
+    const pet = new Pet(req.body);
+    pet.save(function (err) {
+      if (req.file) {
+        client.upload(req.file.path, {}, function (err, versions, meta) {
+          if (err) { return res.status(400).send({ err: err }) };
+
+          versions.forEach(function (image) {
+            var urlArray = image.url.split('-');
+            urlArray.pop();
+            // urlArray[0] = urlArray[0] + "-us-west-1";
+            var url = urlArray.join('-');
+            pet.avatarUrl = url;
+            pet.save();
+          });
+
+          res.json({ pet: pet });
+        });
+      } else {
+        res.json({ pet: pet });
+      }
+    })
+  })
+
+  // API: SHOW PET
+  app.get('/api/pets/:id', (req, res) => {
+    Pet.findById(req.params.id).exec((err, pet) => {
+      return res.json('pets-show', { pet: pet });
+    });
+  });
+
+  // API: UPDATE PET
+  app.put('/api/pets/:id', (req, res) => {
+    Pet.findByIdAndUpdate(req.params.id, req.body)
+      .then((pet) => {
+        res.json(`/pets/${pet._id}`)
+      })
+      .catch((err) => {
+        // Handle Errors
+      });
+  });
+
+  // API: DELETE PET
+  app.delete('/api/pets/:id', (req, res) => {
+    Pet.findByIdAndRemove(req.params.id).exec((err, pet) => {
+      return res.redirect('/')
+    });
+  });
+
+
 
 }
