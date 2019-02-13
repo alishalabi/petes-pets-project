@@ -23,7 +23,7 @@ const mg = require('nodemailer-mailgun-transport')
 const app = express();
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI ||'mongodb://localhost/petes-pets',  { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI ||'mongodb://localhost/petes-pets',  { useCreateIndex: true, useNewUrlParser: true });
 
 // const auth = {
 //   auth: {
